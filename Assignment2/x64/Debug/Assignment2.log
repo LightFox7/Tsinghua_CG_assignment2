@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(37,22): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(37,16): warning C4244: 'initialisation' : conversion de 'double' en 'const float', perte possible de données
+  Assignment2.vcxproj -> C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\x64\Debug\Assignment2.exe
