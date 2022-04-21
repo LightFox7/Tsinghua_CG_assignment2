@@ -8,11 +8,11 @@
 const float PI = acos(-1);
 
 Sphere::Sphere(float radius, int sectorCount, int stackCount, std::shared_ptr<Sphere> focus,
-	float distance, float startAngle, float startSpeed, std::string name, bool up)
+	float distance, float startAngle, float startSpeed, std::string name, bool up, std::string texturePath)
 	: radius(radius), sectorCount(sectorCount), stackCount(stackCount), focus(focus),
-	distance(distance), angle(startAngle), speed(startSpeed), name(name), up(up)
+	distance(distance), angle(startAngle), speed(startSpeed), name(name), up(up), texturePath(texturePath)
 {
-	model = std::make_shared<glm::mat4>(1.0);
+	model = std::make_shared<glm::mat4>(glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
 	Generate();
 }
 
@@ -116,27 +116,47 @@ void Sphere::Generate()
 		data.emplace_back(vertices[indices[i] * 3]);
 		data.emplace_back(vertices[indices[i] * 3 + 1]);
 		data.emplace_back(vertices[indices[i] * 3 + 2]);
+		data.emplace_back(texCoords[indices[i] * 2]);
+		data.emplace_back(texCoords[indices[i] * 2 + 1]);
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * data.size(), &data.front(), GL_STATIC_DRAW);
 
 	// set vertex attribute pointers
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	// unbind VB & VA
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	// End binding buffer
-	nVert = data.size() / 3;
+	nVert = data.size() / 5;
 
+	// Load and create a texture
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	// Set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR);
+	// Set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Load image, create texture and generate mipmaps
+	int width, height;
+	unsigned char* image = SOIL_load_image(texturePath.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image);
+	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
 }
 
 // Update sphere position and rotation
 void Sphere::update(float speedScale)
 {
-	*model = glm::rotate(*model, glm::radians(1.0f * speedScale), glm::vec3(1.0f, 0, 0));
+	*model = glm::rotate(*model, glm::radians(1.0f * speedScale), glm::vec3(0.0f, 0.0f, 1.0f));
 	if (focus == nullptr)
 		return;
 	glm::mat4 focusModel = focus->getModel();
@@ -146,17 +166,21 @@ void Sphere::update(float speedScale)
 	glm::vec3 skew;
 	glm::vec4 perspective;
 	glm::decompose(focusModel, scale, rotation, translation, skew, perspective);
-	*model = glm::translate(glm::translate(glm::mat4(1.0f), translation),
-		glm::vec3(distance * cos(angle * PI / 180.0), 0.0f, distance * sin(angle * PI / 180.0)));
+	(*model)[3][0] = translation.x + distance * cos(angle * PI / 180.0);
+	(*model)[3][1] = translation.y;
+	(*model)[3][2] = translation.z + distance * sin(angle * PI / 180.0);
+	// *model = glm::translate(glm::translate(glm::mat4(1.0f), translation),
+	//	glm::vec3(distance * cos(angle * PI / 180.0), 0.0f, distance * sin(angle * PI / 180.0)));
 	angle += speed * speedScale;
 }
 
 void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 {
-	Shader shader("face.vert.glsl", "face.frag.glsl");
+	Shader shader("main.vert.glsl", "main.frag.glsl");
 	shader.Use();
 
 	// Drawing
+	glBindTexture(GL_TEXTURE_2D, texture);
 	// get uniform locations
 	GLint modelLoc = glGetUniformLocation(shader.Program, "model");
 	GLint viewLoc = glGetUniformLocation(shader.Program, "view");
@@ -166,12 +190,6 @@ void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(*model));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-	// use the same color for all points
-	GLint colorLoc = glGetUniformLocation(shader.Program, "ourColor");
-	glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(1, 1, 1)));
-	if (focus != nullptr)
-		glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(1, .2, .2)));
 
 	glBindVertexArray(VA);
 	glDrawArrays(GL_TRIANGLES, 0, nVert);

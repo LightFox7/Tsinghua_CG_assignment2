@@ -40,12 +40,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="face.frag.glsl">
-      <Filter>Fichiers de ressources</Filter>
-    </None>
-    <None Include="face.vert.glsl">
-      <Filter>Fichiers de ressources</Filter>
-    </None>
     <None Include="main.frag.glsl">
       <Filter>Fichiers de ressources</Filter>
     </None>

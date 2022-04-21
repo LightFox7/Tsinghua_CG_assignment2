@@ -30,8 +30,6 @@
     <ClInclude Include="Text.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="face.frag.glsl" />
-    <None Include="face.vert.glsl" />
     <None Include="main.frag.glsl" />
     <None Include="main.vert.glsl" />
   </ItemGroup>

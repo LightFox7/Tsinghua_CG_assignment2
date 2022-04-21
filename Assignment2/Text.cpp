@@ -2,7 +2,7 @@
 
 GLuint WIDTH = 800, HEIGHT = 600;
 
-Text::Text() : shader(Shader("text.vert.glsl", "text.frag.glsl")), shader3D(Shader("text3D.vert.glsl", "text3D.frag.glsl"))
+Text::Text() : shader(Shader("text.vert.glsl", "text.frag.glsl"))
 {
     // Compile and setup the shader
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(WIDTH), 0.0f, static_cast<GLfloat>(HEIGHT));

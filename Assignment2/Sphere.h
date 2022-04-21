@@ -15,7 +15,7 @@ class Sphere
 public:
 	// Ctor / Dtor
 	Sphere(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, std::shared_ptr<Sphere> focus = nullptr,
-		float distance = 0.0f, float startAngle = 0.0f, float startSpeed = 0.0f, std::string name = "planet", bool up = true);
+		float distance = 0.0f, float startAngle = 0.0f, float startSpeed = 0.0f, std::string name = "planet", bool up = true, std::string texturePath = "earth.jpg");
 	~Sphere();
 
 	// Getters
@@ -35,6 +35,7 @@ protected:
 	int stackCount;
 	std::string name;
 	bool up;
+	std::string texturePath;
 
 	// Focus sphere param
 	std::shared_ptr<Sphere> focus;
@@ -49,6 +50,7 @@ protected:
 	GLuint VA;
 	GLuint VB;
 	GLsizei nVert;
+	GLuint texture;
 	std::vector<GLfloat> data;
 	std::vector<GLfloat> vertices;
 	std::vector<GLfloat> normals;

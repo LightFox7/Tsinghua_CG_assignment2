@@ -32,6 +32,5 @@ private:
     std::map<GLchar, Character> Characters;
     GLuint VAO, VBO;
     Shader shader;
-    Shader shader3D;
 };
 
