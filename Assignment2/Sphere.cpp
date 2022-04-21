@@ -1,14 +1,15 @@
 #include <glad/glad.h>
+#include <glm/gtx/matrix_decompose.hpp>
 
 #include "Shader.h"
 #include "Sphere.h"
 
 const float PI = acos(-1);
 
-Sphere::Sphere(float radius, int sectorCount, int stackCount, glm::mat4 modelParam)
-	: radius(radius), sectorCount(sectorCount), stackCount(stackCount)
+Sphere::Sphere(float radius, int sectorCount, int stackCount, std::shared_ptr<Sphere> focus, float distance, float startAngle, float startSpeed, std::string name)
+	: radius(radius), sectorCount(sectorCount), stackCount(stackCount), focus(focus), distance(distance), angle(startAngle), speed(startSpeed), name(name)
 {
-	model = std::make_shared<glm::mat4>(modelParam);
+	model = std::make_shared<glm::mat4>(1.0);
 	Generate();
 }
 
@@ -101,6 +102,24 @@ void Sphere::Generate()
 	}
 }
 
+// Update sphere position and rotation
+void Sphere::update(float speedScale)
+{
+	*model = glm::rotate(*model, glm::radians(1.0f), glm::vec3(1.0f, 0, 0));
+	if (focus == nullptr)
+		return;
+	glm::mat4 focusModel = focus->getModel();
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(focusModel, scale, rotation, translation, skew, perspective);
+	*model = glm::translate(glm::translate(glm::mat4(1.0f), translation),
+		glm::vec3(distance * cos(angle * PI / 180.0), 0.0f, distance * sin(angle * PI / 180.0)));
+	angle += speed * speedScale;
+}
+
 void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 {
 	// Generate buffers
@@ -151,8 +170,14 @@ void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 	// use the same color for all points
 	GLint colorLoc = glGetUniformLocation(shader.Program, "ourColor");
 	glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(1, 1, 1)));
+	if (focus != nullptr)
+		glUniform3fv(colorLoc, 1, glm::value_ptr(glm::vec3(1, .2, .2)));
 
 	glBindVertexArray(VA);
 	glDrawArrays(GL_TRIANGLES, 0, nVert);
 	glBindVertexArray(0);
+}
+
+void Sphere::drawText(Text &text)
+{
 }

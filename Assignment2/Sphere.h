@@ -8,23 +8,37 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <GLFW/glfw3.h>
 
+#include "Text.h"
+
 class Sphere
 {
 public:
 	// Ctor / Dtor
-	Sphere(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, glm::mat4 modelParam = glm::mat4(1.0f));
+	Sphere(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, std::shared_ptr<Sphere> focus = nullptr, float distance = 0.0f, float startAngle = 0.0f, float startSpeed = 0.0f, std::string name = "planet");
 	~Sphere();
 
-	// Generate sphere
-	void Generate();
+	// Getters
+	glm::mat4 getModel() { return *model; };
 
+	// Update
+	void update(float speedScale = 1.0f);
 	// Draw sphere
 	void draw(glm::mat4& view, glm::mat4& projection);
+	void drawText(Text &text);
 protected:
+	// Generate sphere
+	void Generate();
 	// Parameters
 	float radius;
 	int sectorCount;
 	int stackCount;
+	std::string name;
+
+	// Focus sphere param
+	std::shared_ptr<Sphere> focus;
+	float angle; // angle relative
+	float speed; // speed in degrees per frame
+	float distance;
 
 	// Position and rotation
 	std::shared_ptr<glm::mat4> model;
