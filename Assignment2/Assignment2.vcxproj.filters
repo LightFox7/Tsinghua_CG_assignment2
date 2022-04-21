@@ -46,5 +46,11 @@
     <None Include="face.vert.glsl">
       <Filter>Fichiers de ressources</Filter>
     </None>
+    <None Include="main.frag.glsl">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="main.vert.glsl">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
 </Project>

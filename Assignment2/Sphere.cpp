@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <glm/gtx/matrix_decompose.hpp>
+#include <SOIL.h>
 
 #include "Shader.h"
 #include "Sphere.h"
@@ -102,40 +103,15 @@ void Sphere::Generate()
 			}
 		}
 	}
-}
 
-// Update sphere position and rotation
-void Sphere::update(float speedScale)
-{
-	*model = glm::rotate(*model, glm::radians(1.0f), glm::vec3(1.0f, 0, 0));
-	if (focus == nullptr)
-		return;
-	glm::mat4 focusModel = focus->getModel();
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(focusModel, scale, rotation, translation, skew, perspective);
-	*model = glm::translate(glm::translate(glm::mat4(1.0f), translation),
-		glm::vec3(distance * cos(angle * PI / 180.0), 0.0f, distance * sin(angle * PI / 180.0)));
-	angle += speed * speedScale;
-}
-
-void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
-{
 	// Generate buffers
-	GLuint VA;
-	GLuint VB;
-	GLsizei nVert;
-	std::vector<GLfloat> data;
-
 	glGenVertexArrays(1, &VA);
 	glGenBuffers(1, &VB);
 
 	glBindVertexArray(VA);
 	glBindBuffer(GL_ARRAY_BUFFER, VB);
 
+	std::vector<GLfloat>().swap(data);
 	for (int i = 0; i < indices.size(); i++) {
 		data.emplace_back(vertices[indices[i] * 3]);
 		data.emplace_back(vertices[indices[i] * 3 + 1]);
@@ -155,6 +131,28 @@ void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 	// End binding buffer
 	nVert = data.size() / 3;
 
+}
+
+// Update sphere position and rotation
+void Sphere::update(float speedScale)
+{
+	*model = glm::rotate(*model, glm::radians(1.0f * speedScale), glm::vec3(1.0f, 0, 0));
+	if (focus == nullptr)
+		return;
+	glm::mat4 focusModel = focus->getModel();
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(focusModel, scale, rotation, translation, skew, perspective);
+	*model = glm::translate(glm::translate(glm::mat4(1.0f), translation),
+		glm::vec3(distance * cos(angle * PI / 180.0), 0.0f, distance * sin(angle * PI / 180.0)));
+	angle += speed * speedScale;
+}
+
+void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
+{
 	Shader shader("face.vert.glsl", "face.frag.glsl");
 	shader.Use();
 
@@ -193,6 +191,5 @@ void Sphere::drawText(glm::mat4& view, glm::mat4& projection, Text &text)
 	float y = 250;
 	if (up)
 		y += 80;
-	std::cout << x << " " << translation.x << std::endl;
 	text.Render(name, x, y, .3f, glm::vec3(.2f, .9f, .3f));
 }

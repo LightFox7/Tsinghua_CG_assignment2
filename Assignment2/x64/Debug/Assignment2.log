@@ -1,47 +1,30 @@
-﻿  main.cpp
-C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(40,20): warning C4305: '+=' : troncation de 'double' à 'float'
-C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(42,20): warning C4305: '-=' : troncation de 'double' à 'float'
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(158,77): warning C4244: 'argument' : conversion de '_Ty' en 'float', perte possible de données
-          with
-          [
-              _Ty=int
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2021): message : voir la référence à l'instanciation de la fonction modèle 'void std::_Construct_in_place<_Ty,int,int,int,nullptr,int,int,int,const char(&)[4]>(_Ty &,int &&,int &&,int &&,nullptr &&,int &&,int &&,int &&,const char (&)[4]) noexcept(false)' en cours de compilation
-          with
-          [
-              _Ty=Sphere
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<int,int,int,nullptr,int,int,int,const char(&)[4]>(int &&,int &&,int &&,nullptr &&,int &&,int &&,int &&,const char (&)[4])' en cours de compilation
-          with
-          [
-              _Ty=Sphere
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2748): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<int,int,int,nullptr,int,int,int,const char(&)[4]>(int &&,int &&,int &&,nullptr &&,int &&,int &&,int &&,const char (&)[4])' en cours de compilation
-          with
-          [
-              _Ty=Sphere
-          ]
-C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(91): message : voir la référence à l'instanciation de la fonction modèle 'std::shared_ptr<Sphere> std::make_shared<Sphere,int,int,int,nullptr,int,int,int,const char(&)[4]>(int &&,int &&,int &&,nullptr &&,int &&,int &&,int &&,const char (&)[4])' en cours de compilation
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(158,77): warning C4244: 'argument' : conversion de '_Ty' en 'float', perte possible de données
+﻿  Sphere.cpp
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\Sphere.cpp(8,22): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\Sphere.cpp(8,16): warning C4244: 'initialisation' : conversion de 'double' en 'const float', perte possible de données
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\Sphere.cpp(132,25): warning C4267: '=' : conversion de 'size_t' en 'GLsizei', perte possible de données
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(158,77): warning C4244: 'argument' : conversion de '_Ty' en 'const T', perte possible de données
           with
           [
               _Ty=double
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2021): message : voir la référence à l'instanciation de la fonction modèle 'void std::_Construct_in_place<_Ty,double,int,int,std::shared_ptr<_Ty>&,float,float,float,const char(&)[8]>(_Ty &,double &&,int &&,int &&,std::shared_ptr<_Ty> &,float &&,float &&,float &&,const char (&)[8]) noexcept(false)' en cours de compilation
+          and
+          [
+              T=float
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2021): message : voir la référence à l'instanciation de la fonction modèle 'void std::_Construct_in_place<_Ty,double>(_Ty &,double &&) noexcept(false)' en cours de compilation
           with
           [
-              _Ty=Sphere
+              _Ty=glm::mat4
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<double,int,int,std::shared_ptr<_Ty>&,float,float,float,const char(&)[8]>(double &&,int &&,int &&,std::shared_ptr<_Ty> &,float &&,float &&,float &&,const char (&)[8])' en cours de compilation
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2747): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<double>(double &&)' en cours de compilation
           with
           [
-              _Ty=Sphere
+              _Ty=glm::mat4
           ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2748): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<double,int,int,std::shared_ptr<_Ty>&,float,float,float,const char(&)[8]>(double &&,int &&,int &&,std::shared_ptr<_Ty> &,float &&,float &&,float &&,const char (&)[8])' en cours de compilation
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2748): message : voir la référence à l'instanciation de la fonction modèle 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<double>(double &&)' en cours de compilation
           with
           [
-              _Ty=Sphere
+              _Ty=glm::mat4
           ]
-C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\main.cpp(92): message : voir la référence à l'instanciation de la fonction modèle 'std::shared_ptr<Sphere> std::make_shared<Sphere,double,int,int,std::shared_ptr<Sphere>&,float,float,float,const char(&)[8]>(double &&,int &&,int &&,std::shared_ptr<Sphere> &,float &&,float &&,float &&,const char (&)[8])' en cours de compilation
-LINK : warning LNK4098: conflit entre la bibliothèque par défaut 'MSVCRT' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\Assignment2\Sphere.cpp(15): message : voir la référence à l'instanciation de la fonction modèle 'std::shared_ptr<glm::mat4> std::make_shared<glm::mat4,double>(double &&)' en cours de compilation
   Assignment2.vcxproj -> C:\Users\Lucas\Documents\delivery\Tsinghua\Computer Graphics\Assignment2\x64\Debug\Assignment2.exe

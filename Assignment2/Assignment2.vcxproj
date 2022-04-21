@@ -32,6 +32,8 @@
   <ItemGroup>
     <None Include="face.frag.glsl" />
     <None Include="face.vert.glsl" />
+    <None Include="main.frag.glsl" />
+    <None Include="main.vert.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -46,6 +46,10 @@ protected:
 	std::shared_ptr<glm::mat4> model;
 
 	// Drawing info
+	GLuint VA;
+	GLuint VB;
+	GLsizei nVert;
+	std::vector<GLfloat> data;
 	std::vector<GLfloat> vertices;
 	std::vector<GLfloat> normals;
 	std::vector<GLfloat> texCoords;
