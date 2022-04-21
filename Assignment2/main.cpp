@@ -88,16 +88,16 @@ int main()
 	const float distance = 3.0f;
 
 	// Create planets
-	std::shared_ptr<Sphere> sun = std::make_shared<Sphere>(2, 36, 18);
-	std::shared_ptr<Sphere> mercury = std::make_shared<Sphere>(.2, 36, 18, sun, 1 * distance, 0.0f, 4.0f);
-	std::shared_ptr<Sphere> venus = std::make_shared<Sphere>(.3, 36, 18, sun, 2 * distance, 0.0f, 1.8f);
-	std::shared_ptr<Sphere> earth = std::make_shared<Sphere>(.5, 36, 18, sun, 3 * distance, 0.0f, 1.0f);
-	std::shared_ptr<Sphere> moon = std::make_shared<Sphere>(.15, 36, 18, earth, .2 * distance, 0.0f, 2.0f);
-	std::shared_ptr<Sphere> mars = std::make_shared<Sphere>(.25, 36, 18, sun, 4 * distance, 0.0f, 0.5f);
-	std::shared_ptr<Sphere> jupyter = std::make_shared<Sphere>(1.2, 36, 18, sun, 5 * distance, 0.0f, 0.09f);
-	std::shared_ptr<Sphere> saturn = std::make_shared<Sphere>(1.0, 36, 18, sun, 6 * distance, 0.0f, 0.03f);
-	std::shared_ptr<Sphere> uranus = std::make_shared<Sphere>(.9, 36, 18, sun, 7 * distance, 0.0f, 0.01f);
-	std::shared_ptr<Sphere> neptune = std::make_shared<Sphere>(.8, 36, 18, sun, 8 * distance, 0.0f, 0.005f);
+	std::shared_ptr<Sphere> sun = std::make_shared<Sphere>(2, 36, 18, nullptr, 0, 0, 0, "Sun");
+	std::shared_ptr<Sphere> mercury = std::make_shared<Sphere>(.2, 36, 18, sun, 1 * distance, 0.0f, 4.0f, "Mercury");
+	std::shared_ptr<Sphere> venus = std::make_shared<Sphere>(.3, 36, 18, sun, 2 * distance, 0.0f, 1.8f, "Venus", false);
+	std::shared_ptr<Sphere> earth = std::make_shared<Sphere>(.5, 36, 18, sun, 3 * distance, 0.0f, 1.0f, "Earth");
+	std::shared_ptr<Sphere> moon = std::make_shared<Sphere>(.15, 36, 18, earth, .2 * distance, 0.0f, 2.0f, "Moon", false);
+	std::shared_ptr<Sphere> mars = std::make_shared<Sphere>(.25, 36, 18, sun, 4 * distance, 0.0f, 0.5f, "Mars", false);
+	std::shared_ptr<Sphere> jupyter = std::make_shared<Sphere>(1.2, 36, 18, sun, 5 * distance, 0.0f, 0.09f, "Jupyter");
+	std::shared_ptr<Sphere> saturn = std::make_shared<Sphere>(1.0, 36, 18, sun, 6 * distance, 0.0f, 0.03f, "Saturn");
+	std::shared_ptr<Sphere> uranus = std::make_shared<Sphere>(.9, 36, 18, sun, 7 * distance, 0.0f, 0.01f, "Uranus");
+	std::shared_ptr<Sphere> neptune = std::make_shared<Sphere>(.8, 36, 18, sun, 8 * distance, 0.0f, 0.005f, "Neptune");
 
 	std::vector<std::shared_ptr<Sphere>> spheres;
 	spheres.push_back(sun);
@@ -123,7 +123,7 @@ int main()
 			it->update(speedScale);
 			it->draw(*view, *projection);
 			if (displayNames)
-				it->drawText(text);
+				it->drawText(*view, *projection, text);
 		}
 		if (displayHelp) {
 			std::string speedtxt = std::to_string(speedScale);

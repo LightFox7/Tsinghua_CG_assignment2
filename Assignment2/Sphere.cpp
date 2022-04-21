@@ -6,8 +6,10 @@
 
 const float PI = acos(-1);
 
-Sphere::Sphere(float radius, int sectorCount, int stackCount, std::shared_ptr<Sphere> focus, float distance, float startAngle, float startSpeed, std::string name)
-	: radius(radius), sectorCount(sectorCount), stackCount(stackCount), focus(focus), distance(distance), angle(startAngle), speed(startSpeed), name(name)
+Sphere::Sphere(float radius, int sectorCount, int stackCount, std::shared_ptr<Sphere> focus,
+	float distance, float startAngle, float startSpeed, std::string name, bool up)
+	: radius(radius), sectorCount(sectorCount), stackCount(stackCount), focus(focus),
+	distance(distance), angle(startAngle), speed(startSpeed), name(name), up(up)
 {
 	model = std::make_shared<glm::mat4>(1.0);
 	Generate();
@@ -178,6 +180,19 @@ void Sphere::draw(glm::mat4 &view, glm::mat4 &projection)
 	glBindVertexArray(0);
 }
 
-void Sphere::drawText(Text &text)
+void Sphere::drawText(glm::mat4& view, glm::mat4& projection, Text &text)
 {
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(*model, scale, rotation, translation, skew, perspective);
+	glm::vec4 clipSpacePos = projection * (view * glm::vec4(translation, 1.0));
+	float x = 380 + (clipSpacePos.x / clipSpacePos.w) * 400;
+	float y = 250;
+	if (up)
+		y += 80;
+	std::cout << x << " " << translation.x << std::endl;
+	text.Render(name, x, y, .3f, glm::vec3(.2f, .9f, .3f));
 }

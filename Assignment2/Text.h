@@ -27,10 +27,11 @@ public:
 	~Text();
 
 	void Render(std::string text, GLfloat x, GLfloat y, GLfloat scale, glm::vec3 color);
-
+    
 private:
     std::map<GLchar, Character> Characters;
     GLuint VAO, VBO;
     Shader shader;
+    Shader shader3D;
 };
 

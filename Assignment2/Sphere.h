@@ -14,7 +14,8 @@ class Sphere
 {
 public:
 	// Ctor / Dtor
-	Sphere(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, std::shared_ptr<Sphere> focus = nullptr, float distance = 0.0f, float startAngle = 0.0f, float startSpeed = 0.0f, std::string name = "planet");
+	Sphere(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, std::shared_ptr<Sphere> focus = nullptr,
+		float distance = 0.0f, float startAngle = 0.0f, float startSpeed = 0.0f, std::string name = "planet", bool up = true);
 	~Sphere();
 
 	// Getters
@@ -24,7 +25,7 @@ public:
 	void update(float speedScale = 1.0f);
 	// Draw sphere
 	void draw(glm::mat4& view, glm::mat4& projection);
-	void drawText(Text &text);
+	void drawText(glm::mat4& view, glm::mat4& projection, Text& text);
 protected:
 	// Generate sphere
 	void Generate();
@@ -33,6 +34,7 @@ protected:
 	int sectorCount;
 	int stackCount;
 	std::string name;
+	bool up;
 
 	// Focus sphere param
 	std::shared_ptr<Sphere> focus;
